@@ -89,26 +89,30 @@ router.post("/login-with-phone", async (req, res) => {
       });
       await phoneVerification.save();
     }
-    client.messages
-      .create({
-        from: twilioPhoneNumber,
-        to: "+91" + phone,
-        body: `Your OTP is: ${otp}`,
-      })
-      .then(message => {
-        console.log(message.sid);
+    const maxRetries = 3;
+    let retries = 0;
+    while (retries < maxRetries) {
+      try {
+        await client.messages.create({
+          from: twilioPhoneNumber,
+          to: "+91" + phone,
+          body: `Your OTP is: ${otp}`,
+        });
         res.status(200).json({ message: "OTP sent to your phone number" });
-      })
-      .catch(err => {
+        break;
+      } catch (err) {
+        retries++;
         console.error(err);
-        res.status(500).json({ message: "Server error" });
-      });
+        if (retries >= maxRetries) {
+          res.status(500).json({ message: "Failed to send OTP" });
+        }
+      }
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
-
 // Verify OTP
 router.post("/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;
