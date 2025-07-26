@@ -2,10 +2,25 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const session = require("express-session");
+const passport = require("passport");
+const googleAuthRoutes = require("./routes/googleLogin");
 
 const app = express();
 const PORT = process.env.PORT || 5050;
+// Add these middlewares before any `app.use(...)` that uses passport
+app.use(
+  session({
+    secret: "yourSecret", // replace with a strong secret
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize()); 
+app.use(passport.session());
 
+// Add the Google Auth route
+app.use("/", googleAuthRoutes);
 app.use(
   cors({
     origin: "http://localhost:3000", // Next.js dev server

@@ -5,10 +5,10 @@ const bcrypt = require("bcryptjs");
 // const User = mongoose.model("User");
 const twilio = require("twilio");
 const PhoneVerification = require("../models/phoneVerification.js");
-// const mongoose = require("mongoose");
 
 // Twilio configuration
-
+const accountSid = "ACc415cdd722e62ecad8e6ff614eb868cd";
+const authToken = "704f60aeed0da3e902b786f85dd339ea";
 const client = new twilio(accountSid, authToken);
 const twilioPhoneNumber = "+13614281479";
 // Sign Up
