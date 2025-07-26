@@ -5,8 +5,7 @@ const User = mongoose.model("User");
 const twilio = require("twilio");
 
 // Twilio configuration
-const accountSid = process.env.ACCOUNT_SID;
-const authToken = process.env.AUTH_TOKEN;
+
 const client = new twilio(accountSid, authToken);
 
 // Generate OTP and send it to the user's phone number

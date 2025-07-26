@@ -8,8 +8,7 @@ const PhoneVerification = require("../models/phoneVerification.js");
 // const mongoose = require("mongoose");
 
 // Twilio configuration
-const accountSid = process.env.ACCOUNT_SID;
-const authToken = process.env.AUTH_TOKEN;
+
 const client = new twilio(accountSid, authToken);
 const twilioPhoneNumber = "+13614281479";
 // Sign Up
